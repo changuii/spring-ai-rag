@@ -5,7 +5,10 @@ import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +49,12 @@ public class ChatController {
 			.call()
 			.content();
 		return new ChatResponse(answer, conversationId);
+	}
+
+	@DeleteMapping("/api/chat/{conversationId}")
+	public ResponseEntity<Void> clear(@PathVariable String conversationId) {
+		chatMemory.clear(conversationId);
+		return ResponseEntity.ok().build();
 	}
 
 }

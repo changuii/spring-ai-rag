@@ -21,6 +21,11 @@ A Retrieval-Augmented Generation (RAG) starter built with:
 ./gradlew bootRun
 ```
 
+Then open **http://localhost:8080** in a browser for a small built-in web UI
+(`src/main/resources/static/index.html`) — ingest text/Markdown/PDF on the left,
+chat with RAG + conversation memory on the right. It's a static page calling the
+same REST API described below, no separate frontend build required.
+
 Spring Boot's Docker Compose integration will bring up `ollama` and `chroma`
 (defined in `compose.yaml`) automatically. On first run, pull the models Ollama needs:
 
@@ -71,6 +76,12 @@ The `/api/chat` endpoint combines two advisors:
   The memory store is in-process and resets on restart; swap in one of Spring AI's
   persistent `ChatMemoryRepository` implementations (JDBC, Redis, etc.) for
   production use.
+
+**Clear a conversation**
+
+```bash
+curl -X DELETE localhost:8080/api/chat/session-1
+```
 
 ## Build
 
